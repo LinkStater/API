@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+
+
+
+    <script>
+
+        function enviar() {
+            var nome = document.getElementById("nome").value;
+            var categoria = document.getElementById("categoria").value;
+            var preco = document.getElementById("preco").value;
+
+            var data = {
+                "nome": nome,
+                "categoria": categoria,
+                "preco": preco
+            };
+
+            var options = {
+                "method": 'POST',
+                "headers": { 'Content-Type': 'application/json', },
+                "body": JSON.stringify(data)
+            }
+
+            fetch("/enviar", options)
+                .then(response => response.text())
+                .then(resposta => {
+                    alert(resposta);
+                })
+        }
+
+        function consultar() {
+            fetch("/dados")
+                .then(response => response.json())
+                .then(resposta => {
+
+                    var dados = "";
+                    dados += "<p>ID:</p>";
+                    dados += "<h1>Nome:</h1>";
+                    dados += "<h2>Categoria:</h2>";
+                    dados += "<p>Preço:</p>";
+                    dados += "<p>---------------------</p>";
+
+                    $("#conteudo").append(dados);
+
+
+                })
+
+
+        }
+
+    </script>
+</head>
+
+<body>
+    <h1>Cadastrar Produtos</h1>
+    <p>Nome:</p>
+    <input id="nome">
+    <p>Categoria:</p>
+    <input id="categoria">
+    <p>Preco:</p>
+    <input id="preco">
+    <button onclick="enviar()">Enviar</button>
+
+    <p>------------------------------------------------------------------------</p>
+
+    <button onclick="consultar()">Consultar</button>
+    <p id="Resultado"></p>
+
+    <div id="conteudo"></div>
+
+
+
+</body>
+
+</html>
